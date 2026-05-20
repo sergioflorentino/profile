@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currículo - Sérgio Florentino</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.5;
+            padding: 40px 0;
+        }
+
+        .resume-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* Top Header Gradient Tech effect */
+        .header-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%);
+            padding: 45px 50px;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .header-gradient::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #60a5fa, #3b82f6);
+        }
+
+        .header-gradient h1 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+
+        .header-gradient h2 {
+            font-size: 16px;
+            font-weight: 500;
+            color: #93c5fd;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px 20px;
+            font-size: 13px;
+            color: #e2e8f0;
+        }
+
+        .contact-info a {
+            color: #93c5fd;
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Layout Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            padding: 45px 50px;
+        }
+
+        /* Typography styles */
+        h3.section-title {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1e3a8a;
+            margin-bottom: 15px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+        }
+
+        p,
+        li {
+            font-size: 13.5px;
+            color: #475569;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        /* Left Column Styles */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .tech-tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tech-tag {
+            background-color: #f1f5f9;
+            color: #334155;
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .differential-item {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 14px;
+        }
+
+        .differential-item::before {
+            content: "▪";
+            color: #3b82f6;
+            position: absolute;
+            left: 0;
+            top: -1px;
+        }
+
+        /* Right Column Styles */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+        }
+
+        .experience-item {
+            margin-bottom: 25px;
+        }
+
+        .experience-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+
+        .exp-role {
+            font-size: 15px;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .exp-company {
+            font-size: 13.5px;
+            font-weight: 500;
+            color: #2563eb;
+        }
+
+        .exp-date {
+            font-size: 12px;
+            font-weight: 500;
+            color: #64748b;
+            background: #f8fafc;
+            padding: 2px 8px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .exp-bullets {
+            margin-top: 8px;
+            padding-left: 12px;
+        }
+
+        .exp-bullets li {
+            margin-bottom: 5px;
+            position: relative;
+            list-style: none;
+            padding-left: 12px;
+        }
+
+        .exp-bullets li::before {
+            content: "•";
+            color: #64748b;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Printing optimizations */
+        @media print {
+            body {
+                padding: 0;
+                background-color: #ffffff;
+            }
+
+            .resume-container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+
+            .header-gradient {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .tech-tag {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="resume-container">
+        <div class="header-gradient">
+            <h1>Sérgio Florentino</h1>
+            <h2>Engenheiro de Software Sênior</h2>
+            <div class="contact-info">
+                <div>📍 Recife - PE, Brasil</div>
+                <div>📞 +55 81 99738-4407</div>
+                <div>✉️ <a href="mailto:sergioflorentino@gmail.com">sergioflorentino@gmail.com</a></div>
+                <div>🔗 <a href="https://www.linkedin.com/in/sergio-florentino-22035b2b/"
+                        target="_blank">linkedin.com/in/sergio-florentino-22035b2b/</a></div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+
+            <div class="left-column">
+                <div>
+                    <h3 class="section-title">Competências</h3>
+                    <div class="tech-tag-container">
+                        <span class="tech-tag">Java 8/11/17</span>
+                        <span class="tech-tag">Spring Boot</span>
+                        <span class="tech-tag">Spring Data</span>
+                        <span class="tech-tag">Spring Security</span>
+                        <span class="tech-tag">Spring Batch</span>
+                        <span class="tech-tag">Microservices</span>
+                        <span class="tech-tag">REST APIs</span>
+                        <span class="tech-tag">Clean Code</span>
+                        <span class="tech-tag">SOLID</span>
+                        <span class="tech-tag">TDD</span>
+                        <span class="tech-tag">RabbitMQ</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">OpenShift 4</span>
+                        <span class="tech-tag">Kubernetes</span>
+                        <span class="tech-tag">Jenkins</span>
+                        <span class="tech-tag">SonarQube</span>
+                        <span class="tech-tag">CI/CD</span>
+                        <span class="tech-tag">Oracle</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">ReactJS</span>
+                        <span class="tech-tag">React Native</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">Flutter</span>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="section-title">Diferenciais</h3>
+                    <div class="differential-item">Forte experiência em sistemas críticos e do setor financeiro.</div>
+                    <div class="differential-item">Visão arquitetural robusta aliada à prática sólida de
+                        desenvolvimento.</div>
+                    <div class="differential-item">Alto compromisso com qualidade de código, estabilidade e performance.
+                    </div>
+                    <div class="differential-item">Excelente adaptabilidade a ambientes complexos de alta
+                        responsabilidade.</div>
+                </div>
+
+                <div>
+                    <h3 class="section-title">Idiomas</h3>
+                    <p><strong>Português:</strong> Nativo</p>
+                    <p style="margin-top: 5px;"><strong>Inglês:</strong> Intermediário (Leitura técnica, documentação e
+                        comunicação básica)</p>
+                </div>
+
+                <div>
+                    <h3 class="section-title">Formação</h3>
+                    <p><strong>ITECI</strong> (1999 - 2000)</p>
+                    <p style="color: #64748b; font-size: 12.5px;">Curso de Formação de Programadores</p>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div>
+                    <h3 class="section-title">Resumo Profissional</h3>
+                    <p>Engenheiro de Software Sênior com mais de 30 anos de sólida experiência no desenvolvimento de
+                        sistemas corporativos e de missão crítica. Atuação destacada em arquitetura de microsserviços,
+                        integração de sistemas distribuídos e soluções voltadas para o setor financeiro e de pagamentos,
+                        gerenciando requisitos complexos de alta disponibilidade, segurança e escalabilidade.</p>
+                    <p style="margin-top: 10px;">Perfil analítico focado em práticas modernas de engenharia (Clean Code,
+                        SOLID, TDD), infraestrutura ágil e esteiras automatizadas, visando sempre a geração de valor
+                        real para o negócio.</p>
+                </div>
+
+                <div>
+                    <h3 class="section-title">Experiência Profissional</h3>
+
+                    <div class="experience-item">
+                        <div class="exp-header">
+                            <div>
+                                <div class="exp-role">Desenvolvedor Java Sênior</div>
+                                <div class="exp-company">GETNET</div>
+                            </div>
+                            <div class="exp-date">Abr/2022 - Abr/2024</div>
+                        </div>
+                        <ul class="exp-bullets">
+                            <li>Atuação no desenho e na evolução da arquitetura de microsserviços utilizando Java e
+                                Spring Boot.</li>
+                            <li>Desenvolvimento de APIs REST seguras, robustas e escaláveis sob o contexto de pagamentos
+                                e transações financeiras.</li>
+                            <li>Implementação de mensageria assíncrona com RabbitMQ, otimizando o desacoplamento e a
+                                resiliência entre serviços.</li>
+                            <li>Participação ativa em tomadas de decisões técnicas, modelagem de dados (Oracle e
+                                MongoDB) e definição de padrões ágeis (Scrum/Kanban).</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="exp-header">
+                            <div>
+                                <div class="exp-role">Senior Software Engineer - B2</div>
+                                <div class="exp-company">Wipro Technologies</div>
+                            </div>
+                            <div class="exp-date">Ago/2021 - Mai/2022</div>
+                        </div>
+                        <ul class="exp-bullets">
+                            <li>Atuação em sistemas financeiros de grande escala e atendimento a demandas regulatórias
+                                complexas do setor bancário.</li>
+                            <li>Evolução técnica e melhoria contínua do aplicativo Crediamigo (Banco do Nordeste).</li>
+                            <li>Apoio direto à sustentabilidade, estabilidade e arquitetura de aplicações de alta
+                                criticidade.</li>
+                            <li>Uso diário de automação com rotinas de CI/CD, testes automatizados e controle rigoroso
+                                de versionamento.</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="exp-header">
+                            <div>
+                                <div class="exp-role">Desenvolvedor Full Stack SEO</div>
+                                <div class="exp-company">Foco Aluguel de Carros</div>
+                            </div>
+                            <div class="exp-date">Out/2005 - Out/2018</div>
+                        </div>
+                        <ul class="exp-bullets">
+                            <li>Migração e evolução completa de sistemas legados para arquiteturas web modernas e de
+                                alta performance.</li>
+                            <li>Desenvolvimento de um sistema inteligente de rastreamento de frotas através da
+                                integração de APIs robustas de geolocalização.</li>
+                            <li>Responsável por todo o ciclo de vida de entrega, desde a análise de requisitos iniciais
+                                até a sustentação em ambiente produtivo.</li>
+                            <li>Planejamento e implementação de estratégias de SEO técnico a nível estrutural na
+                                aplicação, garantindo alta performance, indexação eficiente e escalabilidade de conteúdo
+                                com monetização digital (Google AdSense).</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
