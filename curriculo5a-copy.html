@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currículo Interativo - Sérgio Florentino</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variáveis de Cor Dinâmicas baseadas em HSL */
+        :root {
+            /* O valor de --hue será alterado pelo input range (de 0 a 360) */
+            --hue: 0;
+
+            /* Tons gerados dinamicamente mudando apenas a luminosidade (último parâmetro) */
+            --primary-dark: hsl(var(--hue), 75%, 12%);
+            --primary-medium: hsl(var(--hue), 70%, 25%);
+            --primary-light: hsl(var(--hue), 85%, 45%);
+            --accent-color: hsl(var(--hue), 90%, 75%);
+            --accent-subtle: hsl(var(--hue), 80%, 93%);
+
+            --bg-body: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 40px 0;
+        }
+
+        /* Painel do Seletor de Cores (Escondido na Impressão) */
+        .color-picker-container {
+            max-width: 900px;
+            margin: 0 auto 20px auto;
+            background: #ffffff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .picker-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            flex: 1;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 3px solid #1e293b;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Container do Currículo */
+        .resume-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* Cabeçalho com o Gradiente Dinâmico */
+        .header-gradient {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-medium) 50%, var(--primary-light) 100%);
+            padding: 40px 50px;
+            color: #ffffff;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .header-gradient::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--primary-light));
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .header-gradient h1 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+
+        .header-gradient h2 {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 10px 20px;
+            font-size: 13px;
+            color: var(--accent-subtle);
+        }
+
+        .contact-info a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Foto Redonda Configuração */
+        .foto-redonda {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+        }
+
+        /* Layout Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            padding: 45px 50px;
+        }
+
+        /* Título das Seções Dinâmico */
+        h3.section-title {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary-medium);
+            margin-bottom: 15px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+        }
+
+        p,
+        li {
+            font-size: 13.5px;
+            color: var(--text-muted);
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        /* Coluna Esquerda */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .tech-tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tech-tag {
+            background-color: #f1f5f9;
+            color: #334155;
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .differential-item {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 14px;
+        }
+
+        /* Marcador Dinâmico */
+        .differential-item::before {
+            content: "▪";
+            color: var(--primary-light);
+            position: absolute;
+            left: 0;
+            top: -1px;
+        }
+
+        /* Coluna Direita */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+        }
+
+        .experience-item {
+            margin-bottom: 25px;
+        }
+
+        .experience-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+
+        .exp-role {
+            font-size: 15px;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        /* Nome da Empresa Dinâmico */
+        .exp-company {
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--primary-light);
+        }
+
+        .exp-date {
+            font-size: 12px;
+            font-weight: 500;
+            color: #64748b;
+            background: #f8fafc;
+            padding: 2px 8px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .exp-bullets {
+            margin-top: 8px;
+            padding-left: 12px;
+        }
+
+        .exp-bullets li {
+            margin-bottom: 5px;
+            position: relative;
+            list-style: none;
+            padding-left: 12px;
+        }
+
+        .exp-bullets li::before {
+            content: "•";
+            color: #64748b;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Otimizações e Remoções para Impressão/PDF */
+        @media print {
+            body {
+                padding: 0;
+                background-color: #ffffff;
+            }
+
+            /* Esconde o painel do slider no PDF final */
+            .color-picker-container {
+                display: none;
+            }
+
+            .resume-container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+
+            .header-gradient {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .tech-tag {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        #particleCanvas {
+            display: block;
+            position: fixed;
+            /* Fica preso na tela toda acompanhando o scroll */
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            /* Fica por cima de absolutamente tudo do site */
+            pointer-events: none;
+            /* O mouse ignora o canvas para você clicar no site, mas o JS ainda lê os movimentos! */
+            opacity: 0.5;
+            /* Mantém os 50% de transparência geral do layout original */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="color-picker-container">
+        <span class="picker-label">🎨 Escolha o tema do currículo:</span>
+        <input type="range" min="0" max="360" value="215" class="slider" id="hueColorPicker">
+    </div>
+
+    <div class="resume-container">
+        <div class="header-gradient">
+            <div class="header-text">
+                <h1>Sérgio Florentino</h1>
+                <h2>Engenheiro de Software Sênior</h2>
+                <div class="contact-info">
+                    <div>📍 Recife - PE, Brasil</div>
+                    <div>📞 +55 81 99738-4407</div>
+                    <div>✉️ <a href="mailto:sergioflorentino@gmail.com">sergioflorentino@gmail.com</a></div>
+                    <div>🔗 <a href="https://www.linkedin.com/in/sergio-florentino-22035b2b/"
+                            target="_blank">linkedin.com/in/sergio-florentino-22035b2b/</a></div>
+                </div>
+            </div>
+            <img src="foto-sergio.jpg" alt="Foto de Sérgio Florentino" class="foto-redonda">
+        </div>
+
+        <div class="content-grid">
+
+            <div class="left-column">
+                <div>
+                    <h3 class="section-title">Competências</h3>
+                    <div class="tech-tag-container">
+                        <span class="tech-tag">Java 8/11/17</span>
+                        <span class="tech-tag">Spring Boot</span>
+                        <span class="tech-tag">Spring Data</span>
+                        <span class="tech-tag">Spring Security</span>
+                        <span class="tech-tag">Spring Batch</span>
+                        <span class="tech-tag">Microservices</span>
+                        <span class="tech-tag">REST APIs</span>
+                        <span class="tech-tag">Clean Code</span>
+                        <span class="tech-tag">SOLID</span>
+                        <span class="tech-tag">TDD</span>
+                        <span class="tech-tag">RabbitMQ</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">OpenShift 4</span>
+                        <span class="tech-tag">Kubernetes</span>
+                        <span class="tech-tag">Jenkins</span>
+                        <span class="tech-tag">SonarQube</span>
+                        <span class="tech-tag">CI/CD</span>
+                        <span class="tech-tag">Oracle</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">ReactJS</span>
+                        <span class="tech-tag">React Native</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">Flutter</span>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="section-title">Diferenciais</h3>
+                    <div class="differential-item">Forte experiência em sistemas críticos e do setor financeiro.</div>
+                    <div class="differential-item">Visão arquitetural robusta aliada à prática sólida de
+                        desenvolvimento.</div>
+                    <div class="differential-item">Alto compromisso com qualidade de código, estabilidade e performance.
+                    </div>
+                    <div class="differential-item">Excelente adaptabilidade a ambientes complexos de alta
+                        responsabilidade.</div>
+                </div>
+
+                <div>
+                    <h3 class="section-title">Idiomas</h3>
+                    <p><strong>Português:</strong> Nativo</p>
+                    <p style="margin-top: 5px;"><strong>Inglês:</strong> Intermediário (Leitura técnica, documentação e
+                        comunicação básica)</p>
+                </div>
+
+                <div>
+                    <h3 class="section-title">Formação</h3>
+                    <p><strong>ITECI</strong> (1999 - 2000)</p>
+                    <p style="color: #64748b; font-size: 12.5px;">Curso de Formação de Programadores</p>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div>
+                    <h3 class="section-title">Resumo Profissional</h3>
+                    <p>Engenheiro de Software Sênior com mais de 30 anos de sólida experiência no desenvolvimento de
+                        sistemas corporativos e de missão crítica. Atuação destacada em arquitetura de microsserviços,
+                        integração de sistemas distribuídos e soluções voltadas para o setor financeiro e de pagamentos,
+                        gerenciando requisitos complexos de alta disponibilidade, segurança e escalabilidade.</p>
+                    <p style="margin-top: 10px;">Perfil analítico focado em práticas modernas de engenharia (Clean Code,
+                        SOLID, TDD), infraestrutura ágil e esteiras automatizadas, visando sempre a geração de valor
+                        real para o negócio.</p>
+                </div>
+
+                <div>
+                    <h3 class="section-title">Experiência Profissional</h3>
+
+                    <div class="experience-item">
+                        <div class="exp-header">
+                            <div>
+                                <div class="exp-role">Desenvolvedor Java Sênior</div>
+                                <div class="exp-company">GETNET</div>
+                            </div>
+                            <div class="exp-date">Abr/2022 - Abr/2024</div>
+                        </div>
+                        <ul class="exp-bullets">
+                            <li>Atuação no desenho e na evolução da arquitetura de microsserviços utilizando Java e
+                                Spring Boot.</li>
+                            <li>Desenvolvimento de APIs REST seguras, robustas e escaláveis sob o contexto de pagamentos
+                                e transações financeiras.</li>
+                            <li>Implementação de mensageria assíncrona com RabbitMQ, otimizando o desacoplamento e a
+                                resiliência entre serviços.</li>
+                            <li>Participação activa em tomadas de decisões técnicas, modelagem de dados (Oracle e
+                                MongoDB) e definição de padrões ágeis (Scrum/Kanban).</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="exp-header">
+                            <div>
+                                <div class="exp-role">Senior Software Engineer - B2</div>
+                                <div class="exp-company">Wipro Technologies</div>
+                            </div>
+                            <div class="exp-date">Ago/2021 - Mai/2022</div>
+                        </div>
+                        <ul class="exp-bullets">
+                            <li>Atuação em sistemas financeiros de grande escala e atendimento a demandas regulatórias
+                                complexas do setor bancário.</li>
+                            <li>Evolução técnica e melhoria contínua do aplicativo Crediamigo (Banco do Nordeste).</li>
+                            <li>Apoio direto à sustentabilidade, estabilidade e arquitetura de aplicações de alta
+                                criticidade.</li>
+                            <li>Uso diário de automação com rotinas de CI/CD, testes automatizados e controle rigoroso
+                                de versionamento.</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="exp-header">
+                            <div>
+                                <div class="exp-role">Desenvolvedor Full Stack SEO</div>
+                                <div class="exp-company">Foco Aluguel de Carros</div>
+                            </div>
+                            <div class="exp-date">Out/2005 - Out/2018</div>
+                        </div>
+                        <ul class="exp-bullets">
+                            <li>Migração e evolução completa de sistemas legados para arquiteturas web modernas e de
+                                alta performance.</li>
+                            <li>Desenvolvimento de um sistema inteligente de rastreamento de frotas através da
+                                integração de APIs robustas de geolocalização.</li>
+                            <li>Responsável por todo o ciclo de vida de entrega, desde a análise de requisitos iniciais
+                                até a sustentação em ambiente produtivo.</li>
+                            <li>Planejamento e implementação de estratégias de SEO técnico a nível estrutural na
+                                aplicação, garantindo alta performance, indexação eficiente e escalabilidade de conteúdo
+                                com monetização digital (Google AdSense).</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const picker = document.getElementById('hueColorPicker');
+
+        // Define o valor inicial (Azul padrão corporativo = 215)
+        document.documentElement.style.setProperty('--hue', picker.value);
+
+        // Escuta as alterações no slider
+        picker.addEventListener('input', (e) => {
+            document.documentElement.style.setProperty('--hue', e.target.value);
+        });
+    </script>
+    <!-- O Canvas que serve como a camada invisível de partículas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const mouse = {
+            x: null,
+            y: null,
+            radius: 160 // Raio de afastamento do mouse
+        };
+
+        // Captura o movimento do mouse mesmo com pointer-events: none no CSS
+        window.addEventListener('mousemove', function (event) {
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+
+        window.addEventListener('mouseout', function () {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        let ticker = 0;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.baseX = this.x;
+                this.baseY = this.y;
+
+                this.size = Math.random() * 15 + 5;
+
+                // 1. CAPTURA O MATIZ (HUE) ATUAL DO SELETOR:
+                // Pega o valor atual do slider para sincronizar com o tema escolhido
+                let currentHue = document.getElementById('hueColorPicker').value;
+
+                // 2. ADICIONA A LÓGICA DE COR MAIS CLARA:
+                // Sorteia um valor entre 0 e 20 e soma a 70.
+                // Isso garante uma variação de luminosidade alta (entre 70% e 90%), gerando tons bem claros e pastéis.
+                let lightness = Math.floor(Math.random() * 20) + 70;
+
+                // Mantemos uma saturação alta (85%) para a cor aparecer sutilmente, combinando com o matiz dinâmico
+                this.color = `hsl(${currentHue}, 85%, ${lightness}%)`;
+
+                this.shapeType = Math.floor(Math.random() * 14) + 1;
+
+                this.waveSpeedX = Math.random() * 0.015 + 0.005;
+                this.waveSpeedY = Math.random() * 0.015 + 0.005;
+                this.waveAmplitudeX = Math.random() * 20 + 5;
+                this.waveAmplitudeY = Math.random() * 20 + 5;
+                this.waveOffset = Math.random() * 100;
+
+                this.returnSpeed = 0.04;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+
+                let s = this.size;
+
+                switch (this.shapeType) {
+                    case 1: // Estrela Clássica de 5 pontas (Raio padrão)
+                        for (let i = 0; i < 10; i++) {
+                            let angle = (i * Math.PI) / 5 - Math.PI / 2;
+                            let r = (i % 2 === 0) ? s / 2 : s / 4;
+                            ctx.lineTo(this.x + r * Math.cos(angle), this.y + r * Math.sin(angle));
+                        }
+                        break;
+
+                    case 2: // Estrela de 4 pontas (Estilo Brilho/Faísca)
+                        for (let i = 0; i < 8; i++) {
+                            let angle = (i * Math.PI) / 4 - Math.PI / 2;
+                            let r = (i % 2 === 0) ? s / 2 : s / 6; // Centro bem fino para parecer um brilho
+                            ctx.lineTo(this.x + r * Math.cos(angle), this.y + r * Math.sin(angle));
+                        }
+                        break;
+
+                    case 3: // Estrela de 6 pontas (Estrela de Davi / Cristal de Gelo)
+                        for (let i = 0; i < 12; i++) {
+                            let angle = (i * Math.PI) / 6 - Math.PI / 2;
+                            let r = (i % 2 === 0) ? s / 2 : s / 3.5;
+                            ctx.lineTo(this.x + r * Math.cos(angle), this.y + r * Math.sin(angle));
+                        }
+                        break;
+
+                    case 4: // Estrela de 7 pontas (Mística)
+                        for (let i = 0; i < 14; i++) {
+                            let angle = (i * Math.PI) / 7 - Math.PI / 2;
+                            let r = (i % 2 === 0) ? s / 2 : s / 4;
+                            ctx.lineTo(this.x + r * Math.cos(angle), this.y + r * Math.sin(angle));
+                        }
+                        break;
+
+                    case 5: // Estrela de 8 pontas (Bússola / Rosa dos Ventos)
+                        for (let i = 0; i < 16; i++) {
+                            let angle = (i * Math.PI) / 8 - Math.PI / 2;
+                            let r = (i % 2 === 0) ? s / 2 : s / 3.8;
+                            ctx.lineTo(this.x + r * Math.cos(angle), this.y + r * Math.sin(angle));
+                        }
+                        break;
+
+                    case 6: // Estrela de 10 pontas (Distintivo / Brilho Intenso)
+                        for (let i = 0; i < 20; i++) {
+                            let angle = (i * Math.PI) / 10 - Math.PI / 2;
+                            let r = (i % 2 === 0) ? s / 2 : s / 3.2; // Pontas mais curtas e densas
+                            ctx.lineTo(this.x + r * Math.cos(angle), this.y + r * Math.sin(angle));
+                        }
+                        break;
+
+                    case 7: // Estrela de 12 pontas (Estilo Sol / Astro)
+                        for (let i = 0; i < 24; i++) {
+                            let angle = (i * Math.PI) / 12 - Math.PI / 2;
+                            let r = (i % 2 === 0) ? s / 2 : s / 3;
+                            ctx.lineTo(this.x + r * Math.cos(angle), this.y + r * Math.sin(angle));
+                        }
+                        break;
+
+                    case 8: // Estrela Retrô / Gordinha de 4 pontas
+                        for (let i = 0; i < 8; i++) {
+                            let angle = (i * Math.PI) / 4 - Math.PI / 2;
+                            let r = (i % 2 === 0) ? s / 2 : s / 2.5; // Raio interno grande deixa ela robusta
+                            ctx.lineTo(this.x + r * Math.cos(angle), this.y + r * Math.sin(angle));
+                        }
+                        break;
+
+                    case 9: // Estrela de 3 pontas (Estilo Futurista / Sci-Fi)
+                        for (let i = 0; i < 6; i++) {
+                            let angle = (i * Math.PI) / 3 - Math.PI / 2;
+                            let r = (i % 2 === 0) ? s / 2 : s / 6;
+                            ctx.lineTo(this.x + r * Math.cos(angle), this.y + r * Math.sin(angle));
+                        }
+                        break;
+
+                    case 10: // Estrela Cadente / Pontas Longas e Assimétricas (4 pontas esticadas)
+                        for (let i = 0; i < 8; i++) {
+                            let angle = (i * Math.PI) / 4 - Math.PI / 2;
+                            // Altera o tamanho dependendo do eixo para criar um efeito alongado vertical
+                            let rBase = (i % 2 === 0) ? s / 2 : s / 8;
+                            let r = (i === 0 || i === 4) ? rBase * 1.2 : rBase;
+                            ctx.lineTo(this.x + r * Math.cos(angle), this.y + r * Math.sin(angle));
+                        }
+                        break;
+
+                    case 11: // Estrela Cyberpunk / Cruz Ninja (4 pontas super afiadas)
+                        for (let i = 0; i < 8; i++) {
+                            let angle = (i * Math.PI) / 4 - Math.PI / 2;
+                            let r = (i % 2 === 0) ? s / 2 : s / 12; // Centro extremamente fino
+                            ctx.lineTo(this.x + r * Math.cos(angle), this.y + r * Math.sin(angle));
+                        }
+                        break;
+
+                    case 12: // Estrela de 16 pontas (Estilo Medalha / Selo)
+                        for (let i = 0; i < 32; i++) {
+                            let angle = (i * Math.PI) / 16 - Math.PI / 2;
+                            let r = (i % 2 === 0) ? s / 2 : s / 2.5;
+                            ctx.lineTo(this.x + r * Math.cos(angle), this.y + r * Math.sin(angle));
+                        }
+                        break;
+
+                    case 13: // Estrela Náutica (Estilo Cartografia / Linhas Cruzadas)
+                        // Linhas principais da bússola de 4 eixos
+                        for (let i = 0; i < 8; i++) {
+                            let angle = (i * Math.PI) / 4 - Math.PI / 2;
+                            let r = (i % 2 === 0) ? s / 2 : s / 5;
+                            ctx.lineTo(this.x + r * Math.cos(angle), this.y + r * Math.sin(angle));
+                        }
+                        // Linha interna de reforço geométrico
+                        ctx.moveTo(this.x - s / 2, this.y); ctx.lineTo(this.x + s / 2, this.y);
+                        ctx.moveTo(this.x, this.y - s / 2); ctx.lineTo(this.x, this.y + s / 2);
+                        break;
+
+                    case 14: // Mini Brilho Crossover (Estrela centralizada com halo geométrico)
+                        for (let i = 0; i < 8; i++) {
+                            let angle = (i * Math.PI) / 4 - Math.PI / 4;
+                            let r = (i % 2 === 0) ? s / 2.5 : s / 5;
+                            ctx.lineTo(this.x + r * Math.cos(angle), this.y + r * Math.sin(angle));
+                        }
+                        break;
+                }
+
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            update() {
+                // Balanço contínuo do mar atuando na posição base/âncora da partícula
+                let currentBaseX = this.baseX + Math.sin(ticker * this.waveSpeedX + this.waveOffset) * this.waveAmplitudeX;
+                let currentBaseY = this.baseY + Math.cos(ticker * this.waveSpeedY + this.waveOffset) * this.waveAmplitudeY;
+
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < mouse.radius) {
+                    let force = (mouse.radius - distance) / mouse.radius;
+                    let directionX = dx / distance;
+                    let directionY = dy / distance;
+
+                    // Empurra baseado unicamente na direção em que o mouse entra
+                    this.x -= directionX * force * 14;
+                    this.y -= directionY * force * 14;
+                } else {
+                    // Retorno elástico para a posição atual da flutuação da onda
+                    if (this.x !== currentBaseX) {
+                        let dxBase = this.x - currentBaseX;
+                        this.x -= dxBase * this.returnSpeed;
+                    }
+                    if (this.y !== currentBaseY) {
+                        let dyBase = this.y - currentBaseY;
+                        this.y -= dyBase * this.returnSpeed;
+                    }
+                }
+            }
+        }
+
+        const particleArray = [];
+        const numberOfParticles = 80; // Quantidade balanceada para cobrir a tela sem poluir o site
+
+        function init() {
+            particleArray.length = 0;
+            for (let i = 0; i < numberOfParticles; i++) {
+                particleArray.push(new Particle());
+            }
+        }
+        init();
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ticker += 1;
+
+            // Resgata o matiz do seletor a cada frame do loop de animação
+            let currentHue = document.getElementById('hueColorPicker').value;
+
+            for (let i = 0; i < particleArray.length; i++) {
+                // Atualiza dinamicamente apenas o matiz da partícula, preservando a sua luminosidade original clara
+                let currentLightness = particleArray[i].color.match(/\d+%/)[0]; // Captura a porcentagem de brilho dela
+                particleArray[i].color = `hsl(${currentHue}, 85%, ${currentLightness})`;
+
+                particleArray[i].update();
+                particleArray[i].draw();
+            }
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+
+</body>
+
+</html>
