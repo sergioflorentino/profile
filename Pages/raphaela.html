@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currículo Interativo - Raphaela Novaes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variáveis de Cor Dinâmicas baseadas em HSL - Inicializada em tom Magenta/Rosa */
+        :root {
+            --hue: 335;
+
+            --primary-dark: hsl(var(--hue), 75%, 12%);
+            --primary-medium: hsl(var(--hue), 70%, 25%);
+            --primary-light: hsl(var(--hue), 85%, 45%);
+            --accent-color: hsl(var(--hue), 90%, 75%);
+            --accent-subtle: hsl(var(--hue), 80%, 93%);
+
+            --bg-body: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 40px 0;
+        }
+
+        .color-picker-container {
+            max-width: 900px;
+            margin: 0 auto 20px auto;
+            background: #ffffff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .picker-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            flex: 1;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 3px solid #1e293b;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .resume-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            z-index: 5;
+        }
+
+        .header-gradient {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-medium) 50%, var(--primary-light) 100%);
+            padding: 40px 50px;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .header-gradient::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--primary-light));
+            z-index: 6;
+        }
+
+        .header-text {
+            flex: 1;
+            position: relative;
+            z-index: 5;
+        }
+
+        .header-gradient h1 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+
+        .header-gradient h2 {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 10px 20px;
+            font-size: 13px;
+            color: var(--accent-subtle);
+        }
+
+        .contact-info a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .foto-redonda {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Layout Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            padding: 45px 50px;
+        }
+
+        h3.section-title {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary-medium);
+            margin-bottom: 15px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+        }
+
+        p,
+        li {
+            font-size: 13.5px;
+            color: var(--text-muted);
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .tech-tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tech-tag {
+            background-color: #f1f5f9;
+            color: #334155;
+            font-size: 11.5px;
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .differential-item {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 14px;
+        }
+
+        .differential-item::before {
+            content: "▪";
+            color: var(--primary-light);
+            position: absolute;
+            left: 0;
+            top: -1px;
+        }
+
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+        }
+
+        .experience-item {
+            margin-bottom: 25px;
+        }
+
+        .experience-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+
+        .exp-role {
+            font-size: 15px;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .exp-company {
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--primary-light);
+        }
+
+        .exp-date {
+            font-size: 12px;
+            font-weight: 500;
+            color: #64748b;
+            background: #f8fafc;
+            padding: 2px 8px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .exp-bullets {
+            margin-top: 8px;
+            padding-left: 12px;
+        }
+
+        .exp-bullets li {
+            margin-bottom: 5px;
+            position: relative;
+            list-style: none;
+            padding-left: 12px;
+        }
+
+        .exp-bullets li::before {
+            content: "•";
+            color: #64748b;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .background-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .parallax-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transition: transform 0.1s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: transform;
+        }
+
+        .floating-svg {
+            position: absolute;
+            opacity: 0.15;
+            filter: grayscale(100%) brightness(200%);
+            display: block;
+        }
+
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(4deg); }
+        }
+
+        @keyframes float-medium {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-18px) rotate(-6deg); }
+        }
+
+        @keyframes float-fast {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(10deg); }
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background-color: #ffffff;
+            }
+
+            .color-picker-container,
+            .background-shapes {
+                display: none;
+            }
+
+            .resume-container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+
+            .header-gradient {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .tech-tag {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="color-picker-container">
+        <span class="picker-label">🎨 Escolha o tema do currículo:</span>
+        <input type="range" min="0" max="360" value="335" class="slider" id="hueColorPicker">
+    </div>
+
+    <div class="resume-container">
+        <div class="header-gradient">
+
+            <div class="background-shapes">
+                <div class="parallax-layer" data-speed="30">
+                    <svg class="floating-svg" style="width: 50px; top: 12%; left: 6%; animation: float-slow 5s ease-in-out infinite;" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+                </div>
+                <div class="parallax-layer" data-speed="-40">
+                    <svg class="floating-svg" style="width: 55px; top: 15%; left: 45%; animation: float-medium 6s ease-in-out infinite;" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 7h-4v3h4v2h-4v3h-2v-3H9v-2h2v-3H8V8h3V5h2v3h4v2z"/></svg>
+                </div>
+                <div class="parallax-layer" data-speed="50">
+                    <svg class="floating-svg" style="width: 45px; top: 62%; left: 8%; animation: float-fast 3s ease-in-out infinite;" viewBox="0 0 24 24" fill="currentColor"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg>
+                </div>
+                <div class="parallax-layer" data-speed="-28">
+                    <svg class="floating-svg" style="width: 50px; top: 65%; left: 50%; animation: float-slow 7s ease-in-out infinite;" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                </div>
+                <div class="parallax-layer" data-speed="42">
+                    <svg class="floating-svg" style="width: 50px; top: 40%; left: 78%; animation: float-medium 5s ease-in-out infinite;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 12 12 12 12-4.48 12-12S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+                </div>
+            </div>
+
+            <div class="header-text">
+                <h1>Raphaela Novaes</h1>
+                <h2>Assistente Administrativa / Financeira</h2>
+                <div class="contact-info">
+                    <div>📍 Recife - Pernambuco, Brasil [cite: 5]</div>
+                    <div>📞 (81) 99937-9778 [cite: 6]</div>
+                    <div>✉️ <a href="mailto:raphaelaflorentino9@gmail.com">raphaelaflorentino9@gmail.com</a> [cite: 7]</div>
+                </div>
+            </div>
+            <img src="foto-sergio.jpg" alt="Foto de Raphaela Novaes" class="foto-redonda">
+        </div>
+
+        <div class="content-grid">
+            <div class="left-column">
+                <div>
+                    <h3 class="section-title">Habilidades e Competências</h3> [cite: 3]
+                    <div class="tech-tag-container">
+                        <span class="tech-tag">Comunicação Clara e Eficaz</span> [cite: 8]
+                        <span class="tech-tag">Excel Intermediário</span> [cite: 9]
+                        <span class="tech-tag">Trabalho em Equipe</span> [cite: 10]
+                        <span class="tech-tag">Organização</span> [cite: 11]
+                        <span class="tech-tag">Atenção aos Detalhes</span> [cite: 11]
+                        <span class="tech-tag">Proatividade</span> [cite: 12]
+                        <span class="tech-tag">Comprometimento</span> [cite: 12]
+                        <span class="tech-tag">Relação Interpessoal</span> [cite: 13]
+                        <span class="tech-tag">Colaboração</span> [cite: 13]
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="section-title">Diferenciais</h3>
+                    <div class="differential-item">Trajetória ascendente e sólida de crescimento interno na área corporativa.</div>
+                    <div class="differential-item">Experiência prática direta em rotinas críticas de contas a pagar e conciliação.</div>
+                    <div class="differential-item">Disposição contínua para colaborar e adquirir novos conhecimentos.</div>
+                </div>
+
+                <div>
+                    <h3 class="section-title">Formação Acadêmica</h3> [cite: 25]
+                    <p><strong>FACULDADE WYDEN</strong> [cite: 28]</p>
+                    <p style="color: #64748b; font-size: 12.5px;">Graduação em Administração — Cursando [cite: 29]</p>
+                </div>
+
+                <div>
+                    <h3 class="section-title">Referências</h3> [cite: 26]
+                    <p>Foco Aluguel de Carros [cite: 27]</p>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div>
+                    <h3 class="section-title">Objetivo Profissional</h3> [cite: 1]
+                    <p>Atuar de forma responsável e comprometida, buscando crescimento profissional por meio de novas experiências e aquisição contínua de conhecimentos, contribuindo para o desenvolvimento da empresa e para o alcance de seus objetivos.</p> [cite: 2]
+                </div>
+
+                <div>
+                    <h3 class="section-title">Experiência Profissional</h3> [cite: 14]
+
+                    <div class="experience-item">
+                        <div class="exp-header">
+                            <div>
+                                <div class="exp-role">Jovem Aprendiz → Estagiária → Assistente Administrativa</div> [cite: 17]
+                                <div class="exp-company">Foco Aluguel de Carros</div> [cite: 16]
+                            </div>
+                            <div class="exp-date">2021 - Atual</div>
+                        </div>
+                        <p style="margin-top: 5px; font-weight: 500; color: var(--text-main);">Atuação no setor administrativo e financeiro, com foco em contas a pagar, desempenhando as seguintes atividades:</p> [cite: 18, 19]
+                        <ul class="exp-bullets">
+                            <li>Lançamento e conferência de notas fiscais; [cite: 20]</li>
+                            <li>Controle de reembolsos e estornos; [cite: 21]</li>
+                            <li>Realização de conciliação bancária; [cite: 22]</li>
+                            <li>Organização e controle de documentos financeiros; [cite: 23]</li>
+                            <li>Apoio geral às rotinas administrativas e financeiras da empresa. [cite: 24]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const picker = document.getElementById('hueColorPicker');
+        document.documentElement.style.setProperty('--hue', picker.value);
+
+        picker.addEventListener('input', (e) => {
+            document.documentElement.style.setProperty('--hue', e.target.value);
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            const layers = document.querySelectorAll('.parallax-layer');
+
+            const x = (window.innerWidth / 2 - e.clientX) / 100;
+            const y = (window.innerHeight / 2 - e.clientY) / 100;
+
+            layers.forEach(layer => {
+                const speed = layer.parentElement.getAttribute('data-speed') || layer.getAttribute('data-speed') || 10;
+                const xOffset = x * speed;
+                const yOffset = y * speed;
+
+                layer.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+            });
+        });
+    </script>
+</body>
+
+</html>
